@@ -9,5 +9,28 @@ def push (my_stack, element):
     all.add_last(my_stack, element)
     return my_stack 
 
-def pop ():
+def is_empty(my_stack):
+    return all.is_empty(my_stack)
+
+
+def pop (my_stack):
     
+    if is_empty(my_stack) != True:
+        tope_stack = my_stack["last"]["info"]
+        all.remove_last(my_stack)
+        
+    else:
+        tope_stack = ("EmptyStructureError: stack is empty.")
+        
+    return tope_stack
+
+def top (my_stack):
+    
+    if is_empty(my_stack) != True:
+        tope_stack = my_stack["last"]["info"]
+    else:
+        tope_stack = ("EmptyStructureError: stack is empty.")
+    return tope_stack
+
+def size (my_stack):
+    return my_stack["size"]
