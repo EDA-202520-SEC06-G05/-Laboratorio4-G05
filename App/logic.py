@@ -28,6 +28,8 @@ import csv
 import os
 import time
 from DataStructures.List import array_list as lt
+from DataStructures.Stack import stack as st
+from DataStructures.Queue import queue as q
 # TODO Importar las librerías correspondientes para el manejo de pilas y colas
 
 data_dir = os.path.dirname(os.path.realpath('__file__')) + '/Data/'
@@ -44,20 +46,12 @@ def new_logic():
     una lista vacia para los generos y una lista vacia para la asociación
     generos y libros. Retorna el catalogo inicializado.
     """
-    catalog = {'books': None,
-               'authors': None,
-               'tags': None,
-               'book_tags': None,
-               'books_to_read': None,
-               'book_sublist': None}
-
-    catalog['books'] = lt.new_list()
-    catalog['authors'] = lt.new_list()
-    catalog['tags'] = lt.new_list()
-    catalog['book_tags'] = lt.new_list()
-    # TODO Implementar la inicialización de la lista de asociación de libros y tags
-    catalog['books_to_read'] = None
-    catalog["book_sublist"] = None
+    catalog = {'books': lt.new_list(),
+               'authors': lt.new_list(),
+               'tags': lt.new_list(),
+               'book_tags': lt.new_list(),
+               'books_to_read': lt.new_list(),
+               'book_sublist': lt.new_list()}
     return catalog
 
 
@@ -72,8 +66,9 @@ def load_data(catalog):
     books, authors = load_books(catalog)
     tag_size = load_tags(catalog)
     book_tag_size = load_books_tags(catalog)
+    cargar_to_read= load_books_to_read(catalog)
     # TODO Cargar los datos de libros para leer
-    return books, authors, tag_size, book_tag_size, books_to_read
+    return books, authors, tag_size, book_tag_size,cargar_to_read
 
 
 def load_books(catalog):
@@ -115,9 +110,20 @@ def load_books_to_read(catalog):
     """
     Carga la información del archivo to_read y los agrega a la lista de libros por leer
     """
-    # TODO Implementar la carga de los libros por leer del archivo to_read
-    return books_to_read_size(catalog)
+    abrir= open("to_read.csv", encoding="utf-8")
+    salto= abrir.readline()
+    for lineas in abrir:
+        datos = lineas.strip().split(",")
+        if len(datos)>=2:
+            user_id=datos[0]
+            book_id=datos[1]
+            valores_dict={"user_id": user_id,"book_id":book_id}
+            catalog["books_to_read"].append(valores_dict)
+    return len(catalog["books_to_read"])        
 
+    # TODO Implementar la carga de los libros por leer del archivo to_read
+    
+    
 # Funciones de consulta sobre el catálogo
 
 
@@ -126,6 +132,12 @@ def get_books_stack_by_user(catalog, user_id):
     Retorna una pila con los libros que un usuario tiene por leer.
     """
     books_stack = st.new_stack()
+    for lib_por_leer in catalog["books_to_read"]:
+        if lib_por_leer["user_id"]==user_id:
+            st.push(books_stack,lib_por_leer["book_id"])
+
+
+
 
     # TODO Completar la función que retorna los libros por leer de un usuario. Se debe usar el TAD Pila para resolver el requerimiento
 
@@ -260,6 +272,8 @@ def book_tag_size(catalog):
 
 
 def books_to_read_size(catalog):
+    return len(catalog["books_to_read"])
+    
     # TODO Implementar la función que retorna el tamaño de la lista de libros por leer
     pass
 
@@ -350,6 +364,8 @@ def measure_stack_performance(catalog):
 
     # Medir push
     start_time = get_time()
+    for pos in range(lt.size(catalog["book_sublist"])):
+        
     # TODO Implementar la medición de tiempo para la operación push
 
     # Medir top
