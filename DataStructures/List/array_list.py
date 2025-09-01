@@ -74,11 +74,10 @@ def remove_first(my_list):
     if my_list["size"] == 0:
         return "Index Error: list index out of range"
     else:
-        new_list = my_list["elements"][1:]
-        return {
-            "elements": new_list,
-            "size": my_list["size"] - 1
-        }
+        deleted = my_list["elements"][0]
+        my_list["elements"] = my_list["elements"][1:]
+        my_list["size"] -= 1
+        return deleted
     
 def remove_last(my_list):
     if my_list["size"] == 0:
