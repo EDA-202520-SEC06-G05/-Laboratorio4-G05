@@ -64,8 +64,10 @@ def load_data(control):
 
 
 def print_books_to_read(results):
+    books, authors, tags, book_tags, books_to_read = logic.load_data(control)
+    
     # TODO Imprimir los libros por leer
-    pass
+    
 
 
 def print_tests_results(queue_results, stack_results):

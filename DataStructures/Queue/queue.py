@@ -17,8 +17,8 @@ def dequeue(my_queue):
     if my_queue["size"] == 0:
         raise Exception("EmptyStructureError: queue is empty")
     else:
+        result = my_queue["first"]["info"]
         final_queue = sl.remove_first(my_queue)
-        result = final_queue["first"]
         return result
 
 def is_empty(my_queue):
