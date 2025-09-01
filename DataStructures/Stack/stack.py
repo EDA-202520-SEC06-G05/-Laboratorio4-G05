@@ -6,7 +6,7 @@ def new_stack ():
     return new_stack 
 
 def push (my_stack, element):
-    all.add_last(my_stack, element)
+    all.add_first(my_stack, element)
     return my_stack 
 
 def is_empty(my_stack):
@@ -16,8 +16,8 @@ def is_empty(my_stack):
 def pop (my_stack):
     
     if is_empty(my_stack) != True:
-        tope_stack = my_stack["last"]["info"]
-        all.remove_last(my_stack)
+        tope_stack = my_stack["first"]["info"]
+        all.remove_first(my_stack)
         
     else:
         tope_stack = ("EmptyStructureError: stack is empty.")
@@ -27,7 +27,7 @@ def pop (my_stack):
 def top (my_stack):
     
     if is_empty(my_stack) != True:
-        tope_stack = my_stack["last"]["info"]
+        tope_stack = my_stack["first"]["info"]
     else:
         tope_stack = ("EmptyStructureError: stack is empty.")
     return tope_stack
