@@ -54,13 +54,13 @@ def new_logic():
                'books_to_read': None,
                'book_sublist': None}
 
-    catalog['books'] = lt.new_list()
-    catalog['authors'] = lt.new_list()
-    catalog['tags'] = lt.new_list()
-    catalog['book_tags'] = lt.new_list()
+    catalog['books'] = sl.new_list()
+    catalog['authors'] = sl.new_list()
+    catalog['tags'] = sl.new_list()
+    catalog['book_tags'] = sl.new_list()
     # TODO Implementar la inicialización de la lista de asociación de libros y tags
-    catalog['books_to_read'] = lt.new_list()
-    catalog["book_sublist"] = lt.new_list()
+    catalog['books_to_read'] = sl.new_list()
+    catalog["book_sublist"] = sl.new_list()
     return catalog
 
 
@@ -325,8 +325,8 @@ def measure_queue_performance(catalog):
 
     # Medir enqueue
     start_time = get_time()
-    for pos in range(lt.size(catalog["book_sublist"])):
-        book = lt.get_element(catalog["book_sublist"], pos)
+    for pos in range(sl.size(catalog["book_sublist"])):
+        book = sl.get_element(catalog["book_sublist"], pos)
         qu.enqueue(queue, book)
     end_time = get_time()
     enqueue_time = delta_time(start_time, end_time)

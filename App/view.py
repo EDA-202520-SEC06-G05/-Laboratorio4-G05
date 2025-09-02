@@ -64,8 +64,9 @@ def load_data(control):
 
 
 def print_books_to_read(results):
-    books, authors, tags, book_tags, books_to_read = logic.load_data(control)
     
+    books, authors, tags, book_tags, books_to_read = logic.load_data(control)
+    print(books_to_read)
     # TODO Imprimir los libros por leer
     
 
@@ -84,6 +85,12 @@ def print_tests_results(queue_results, stack_results):
           f"{queue_results['dequeue_time']:.3f}", "[ms]")
 
     print("\nTiempos de ejecución para Pila: \n")
+    print("Tiempo de ejecución para push:",
+          f"{stack_results['push_time']:.3f}", "[ms]")
+    print("Tiempo de ejecución para top:",
+          f"{stack_results['top_time']:.3f}", "[ms]")
+    print("Tiempo de ejecución para pop:",
+          f"{stack_results['pop_time']:.3f}", "[ms]")
 
     # TODO Imprimir los resultados de las pruebas de rendimiento de la pila
 
@@ -123,6 +130,7 @@ def main():
 
             result = logic.get_user_position_on_queue(
                 control, int(user_id), int(book_id))
+            print("La posición del usuario en la cola es: " + str(result))
             # TODO Imprimir la posición del usuario en la cola
 
         elif int(inputs[0]) == 4:
