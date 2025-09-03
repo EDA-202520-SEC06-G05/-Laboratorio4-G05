@@ -35,6 +35,7 @@ from DataStructures.List import single_linked_list as sl
 
 data_dir = os.path.dirname(os.path.realpath('__file__')) + '/Data/'
 
+
 """
 El controlador se encarga de mediar entre la vista y el modelo.
 """
@@ -52,15 +53,16 @@ def new_logic():
                'tags': None,
                'book_tags': None,
                'books_to_read': None,
-               'book_sublist': None}
+               'book_sublist': None
+               }
 
-    catalog['books'] = sl.new_list()
-    catalog['authors'] = sl.new_list()
-    catalog['tags'] = sl.new_list()
-    catalog['book_tags'] = sl.new_list()
+    catalog['books'] = lt.new_list()
+    catalog['authors'] = lt.new_list()
+    catalog['tags'] = lt.new_list()
+    catalog['book_tags'] = lt.new_list()
     # TODO Implementar la inicialización de la lista de asociación de libros y tags
-    catalog['books_to_read'] = sl.new_list()
-    catalog["book_sublist"] = sl.new_list()
+    catalog['books_to_read'] = lt.new_list()
+    catalog["book_sublist"] = lt.new_list()
     return catalog
 
 
@@ -85,7 +87,7 @@ def load_books(catalog):
     cada uno de ellos, se crea en la lista de autores, a dicho autor y una
     referencia al libro que se esta procesando.
     """
-    booksfile = data_dir + '/books.csv'
+    booksfile = data_dir +'GoodReads/books.csv'
     input_file = csv.DictReader(open(booksfile, encoding='utf-8'))
     for book in input_file:
         add_book(catalog, book)
@@ -96,7 +98,7 @@ def load_tags(catalog):
     """
     Carga todos los tags del archivo y los agrega a la lista de tags
     """
-    tagsfile = data_dir + '/tags.csv'
+    tagsfile = data_dir + 'GoodReads/tags.csv'
     input_file = csv.DictReader(open(tagsfile, encoding='utf-8'))
     for tag in input_file:
         add_tag(catalog, tag)
@@ -107,7 +109,7 @@ def load_books_tags(catalog):
     """
     Carga la información que asocia tags con libros.
     """
-    bookstagsfile = data_dir + 'book_tags-small.csv'
+    bookstagsfile = data_dir + 'GoodReads/book_tags-small.csv'
     input_file = csv.DictReader(open(bookstagsfile, encoding='utf-8'))
     for booktag in input_file:
         add_book_tag(catalog, booktag)
@@ -119,7 +121,7 @@ def load_books_to_read(catalog):
     Carga la información del archivo to_read y los agrega a la lista de libros por leer
     """
     # TODO Implementar la carga de los libros por leer del archivo to_read
-    to_read = data_dir + "to_read.csv"
+    to_read = data_dir + "GoodReads/to_read.csv"
     input_file = csv.DictReader(open(to_read, encoding="utf-8"))
     for book in input_file:
         add_book_to_read(catalog, book)
@@ -129,17 +131,17 @@ def load_books_to_read(catalog):
 
 
 def get_books_stack_by_user(catalog, user_id):
-    """
-    Retorna una pila con los libros que un usuario tiene por leer.
-    """
+    
     books_stack = st.new_stack()
-    for lib_por_leer in catalog["books_to_read"]:
-        if lib_por_leer["user_id"]==user_id:
-            st.push(books_stack,lib_por_leer["book_id"])
+    size = lt.size(catalog["books_to_read"])
+    for i in range(size):
+        lib_por_leer = lt.get_element(catalog["books_to_read"], i)
+        if int(lib_por_leer["user_id"]) == user_id:
+            st.push(books_stack, int(lib_por_leer["book_id"]))
+    return books_stack
+    
 
     # TODO Completar la función que retorna los libros por leer de un usuario. Se debe usar el TAD Pila para resolver el requerimiento
-
-    return books_stack
 
 
 def get_user_position_on_queue(catalog, user_id, book_id):
@@ -147,9 +149,11 @@ def get_user_position_on_queue(catalog, user_id, book_id):
     Retorna la posición de un usuario en la cola para leer un libro.
     """
     queue = qu.new_queue()
-    for lib_por_leer in catalog["books_to_read"]:
-        if lib_por_leer["book_id"] == book_id:
-            qu.enqueue(queue, lib_por_leer["user_id"])
+    size = lt.size(catalog["books_to_read"])
+    for i in range(size):
+        lib_por_leer = lt.get_element(catalog["books_to_read"], i)
+        if int(lib_por_leer["book_id"]) == book_id:
+            qu.enqueue(queue, int(lib_por_leer["user_id"]))
 
     position = 1
     while not qu.is_empty(queue):
@@ -159,7 +163,7 @@ def get_user_position_on_queue(catalog, user_id, book_id):
         else:
             return position   
 
-    return -1 
+    return -1
             
         
     
@@ -312,7 +316,7 @@ def set_book_sublist(catalog, size):
     """
     Crea una sublista de libros de tamaño size
     """
-    algo = lt.sub_list(catalog["books"], 0, size)
+    algo = lt.sub_list(catalog["books"], 1, size)
     catalog["book_sublist"] = algo
     return catalog
 
@@ -341,8 +345,9 @@ def measure_queue_performance(catalog):
 
     # Medir enqueue
     start_time = get_time()
-    for pos in range(sl.size(catalog["book_sublist"])):
-        book = sl.get_element(catalog["book_sublist"], pos)
+    size = lt.size(catalog["book_sublist"])
+    for pos in range(1, size + 1):
+        book = lt.get_element(catalog["book_sublist"], pos)
         qu.enqueue(queue, book)
     end_time = get_time()
     enqueue_time = delta_time(start_time, end_time)
@@ -376,8 +381,8 @@ def measure_stack_performance(catalog):
 
     # Medir push
     start_time = get_time()
-    for pos in range(sl.size(catalog["book_sublist"])):
-        book = sl.get_element(catalog["book_sublist"], pos)
+    for pos in range(lt.size(catalog["book_sublist"])):
+        book = lt.get_element(catalog["book_sublist"], pos)
         st.push(stack,book)
     end_time = get_time()
     push_time = delta_time(start_time, end_time)

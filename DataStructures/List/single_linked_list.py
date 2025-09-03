@@ -216,20 +216,15 @@ def exchange(my_list, pos1, pos2):
 
 def sub_list(my_list, pos, num_elements ):
     new = new_list()
-    if (pos >= 0) and (pos <= my_list["size"]):
-        if num_elements == 0:
-            return new
-        elif (num_elements > 0) and (num_elements <= my_list["size"] - pos):
-            elements = my_list["first"]
-            while pos != 0 :
-                elements = elements["next"]
-                pos -=1
-            while  num_elements > 0 and elements is not None:
-                add_last(new, elements["info"])
-                elements = elements["next"]
-                num_elements -= 1
-        else:
-            return "IndexError list index out of range"
-    else:
-        return "IndexError list index out of range"
+    if (pos >= 1) and (pos <= my_list["size"]):  # índices desde 1
+        elements = my_list["first"]
+        count = 1
+        while count < pos and elements is not None:
+            elements = elements["next"]
+            count += 1
+        while num_elements > 0 and elements is not None:
+            add_last(new, elements["info"])
+            elements = elements["next"]
+            num_elements -= 1
     return new
+
