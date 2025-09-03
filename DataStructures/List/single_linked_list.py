@@ -172,7 +172,7 @@ def insert_element(my_list, element, pos):
                 contador += 1
             pre_list["next"] = nodo
             nodo["next"] = pos_list
-            my_list["size"] += 1
+        my_list["size"] += 1
     else:
         return "IndexError list index out of range"
     
